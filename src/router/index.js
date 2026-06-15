@@ -39,7 +39,13 @@ const routes = [
       name: 'VerifikasiTeknis',
       component: () => import('../views/VerifikasiTeknis.vue'), 
       meta: { requiresAuth: true }
-    }
+    },
+
+    {
+      path: '/verifikasi-anggaran',
+      name: 'verifikasi-anggaran',
+      component: () => import('../views/VerifikasiAnggaran.vue')
+    },
 ]
 
 const router = createRouter({

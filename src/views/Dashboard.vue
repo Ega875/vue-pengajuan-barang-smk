@@ -506,8 +506,12 @@ const statsDinamis = computed(() => {
     const pending = daftarPengajuan.value.filter(p => p.status === 'pending_keuangan').length
     const disetujui = daftarPengajuan.value.filter(p => ['pending_kepsek', 'disetujui'].includes(p.status)).length
     const ditolak = daftarPengajuan.value.filter(p => p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('KEUANGAN')).length
+    
+    // Perbaikan: Total di kartu biru HANYA menghitung berkas milik Keuangan
+    const totalBersihKeuangan = pending + disetujui + ditolak
+
     return [
-      { id: 'Semua', type: 'total', label: 'Total Berkas Masuk', value: total, color: 'border-indigo-500' },
+      { id: 'Semua', type: 'total', label: 'Total Berkas Masuk', value: totalBersihKeuangan, color: 'border-indigo-500' },
       { id: 'Menunggu', type: 'pending', label: 'Antrean Validasi', value: pending, color: 'border-amber-500' },
       { id: 'Disetujui', type: 'disetujui', label: 'Lolos Keuangan', value: disetujui, color: 'border-green-500' },
       { id: 'Ditolak', type: 'ditolak', label: 'Ditolak Keuangan', value: ditolak, color: 'border-red-500' }
@@ -518,8 +522,12 @@ const statsDinamis = computed(() => {
     const pending = daftarPengajuan.value.filter(p => p.status === 'pending_kepsek').length
     const disetujui = daftarPengajuan.value.filter(p => p.status === 'disetujui').length
     const ditolak = daftarPengajuan.value.filter(p => p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('KEPSEK')).length
+    
+    // Perbaikan: Total di kartu biru HANYA menghitung berkas milik Kepsek
+    const totalBersihKepsek = pending + disetujui + ditolak
+
     return [
-      { id: 'Semua', type: 'total', label: 'Total Berkas Masuk', value: total, color: 'border-indigo-500' },
+      { id: 'Semua', type: 'total', label: 'Total Berkas Masuk', value: totalBersihKepsek, color: 'border-indigo-500' },
       { id: 'Menunggu', type: 'pending', label: 'Antrean Validasi', value: pending, color: 'border-amber-500' },
       { id: 'Disetujui', type: 'disetujui', label: 'Telah Disetujui', value: disetujui, color: 'border-green-500' },
       { id: 'Ditolak', type: 'ditolak', label: 'Ditolak Kepsek', value: ditolak, color: 'border-red-500' }
@@ -540,6 +548,22 @@ const statsDinamis = computed(() => {
 const pengajuanTersaring = computed(() => {
   let hasilFilter = daftarPengajuan.value
   
+  // === FILTER ANTI-NYAMPAH UNTUK KEUANGAN & KEPSEK DI DASHBOARD ===
+  if (roleUser.value === 'keuangan') {
+    hasilFilter = hasilFilter.filter(p => 
+      p.status === 'pending_keuangan' || 
+      p.status === 'pending_kepsek' || 
+      p.status === 'disetujui' || 
+      (p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('KEUANGAN'))
+    )
+  } else if (roleUser.value === 'kepsek') {
+    hasilFilter = hasilFilter.filter(p => 
+      p.status === 'pending_kepsek' || 
+      p.status === 'disetujui' || 
+      (p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('KEPSEK'))
+    )
+  }
+
   if (filterJurusan.value !== 'Semua Jurusan') {
     hasilFilter = hasilFilter.filter(p => p.asal_jurusan === filterJurusan.value)
   }
