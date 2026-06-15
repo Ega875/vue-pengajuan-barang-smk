@@ -2,7 +2,7 @@
   <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
     <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
       <!-- Header Tampilan -->
-      <h2 class="text-3xl font-extrabold text-center text-gray-800 mb-2">Login Jurusan</h2>
+      <h2 class="text-3xl font-extrabold text-center text-gray-800 mb-2">Login</h2>
       <p class="text-sm text-center text-gray-500 mb-6">Sistem Informasi Pengajuan Barang SMK</p>
 
       <!-- Alert Pesan Error jika Login Gagal -->

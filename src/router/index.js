@@ -1,29 +1,45 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Dashboard from '../views/Dashboard.vue'
 
 const routes = [
     {
-    path: '/',
-    name: 'Dashboard',
-    component: () => import('../views/Dashboard.vue')
+      path: '/',
+      name: 'Dashboard',
+      component: () => import('../views/Dashboard.vue')
     },
     {
-    path: '/login',
-    name: 'Login',
-    component: () => import('../views/Login.vue') 
+      path: '/login',
+      name: 'Login',
+      component: () => import('../views/Login.vue') 
     },
     {
-    path: '/pengajuan',
-    name: 'Pengajuan',
-    component: () => import('../views/Pengajuan.vue')
+      path: '/pengajuan',
+      name: 'Pengajuan',
+      component: () => import('../views/Pengajuan.vue')
     },
     {
-    path: '/riwayat',
-    name: 'Riwayat',
-    component: () => import('../views/Riwayat.vue')
+      path: '/riwayat',
+      name: 'Riwayat',
+      component: () => import('../views/Riwayat.vue')
+    },
+    {
+      path: '/master-barang',
+      name: 'MasterBarang',
+      component: () => import('../views/MasterBarang.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/kelola-user',
+      name: 'KelolaUser',
+      component: () => import('../views/KelolaUser.vue'),
+      meta: { requiresAuth: true }
+    },
+    // INI ADALAH RUTE BARU UNTUK HALAMAN VERIFIKASI TEKNIS (SARPRAS)
+    {
+      path: '/verifikasi-teknis',
+      name: 'VerifikasiTeknis',
+      component: () => import('../views/VerifikasiTeknis.vue'), 
+      meta: { requiresAuth: true }
     }
-    
-    
 ]
 
 const router = createRouter({
@@ -33,7 +49,6 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('auth_token')
-  const role = localStorage.getItem('user_role')
 
   // 1. Jika user mau ke halaman selain Login tapi belum login (tidak punya token)
   if (to.name !== 'Login' && !token) {

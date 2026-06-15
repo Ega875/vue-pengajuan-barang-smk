@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 // Inisialisasi router
 const router = useRouter()
@@ -10,7 +11,7 @@ const kembaliKeDashboard = () => {
   router.push('/')
 }
 
-// 1. Data 10 Template Barang Umum
+// 1. Data 10 Template Barang Umum (Kembali ke default lokal kamu)
 const masterBarang = ref([
   { id: 1, nama_barang: 'PC Rakitan Standar Lab', harga_satuan: 7500000, spesifikasi_umum: 'Core i5, RAM 16GB, SSD 512GB', kategori: 'Elektronik', jumlah_pilih: 1 },
   { id: 2, nama_barang: 'Monitor LED 24 Inch', harga_satuan: 1500000, spesifikasi_umum: 'Full HD 1080p, IPS Panel', kategori: 'Elektronik', jumlah_pilih: 1 },
@@ -24,6 +25,29 @@ const masterBarang = ref([
   { id: 10, nama_barang: 'Switch Hub TP-Link 24 Port', harga_satuan: 1200000, spesifikasi_umum: 'Gigabit Rackmount Switch', kategori: 'Elektronik', jumlah_pilih: 1 }
 ])
 
+// Ambil data dari katalog master barang umum di database jika ada
+const fetchMasterBarangUmum = async () => {
+  try {
+    const token = localStorage.getItem('auth_token')
+    const response = await axios.get('http://localhost:8889/api/master-barang', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+
+    if (response.data.success && response.data.data.length > 0) {
+      masterBarang.value = response.data.data.map(item => ({
+        id: item.id,
+        nama_barang: item.nama_barang,
+        harga_satuan: item.harga_satuan,
+        spesifikasi_umum: item.spesifikasi_umum,
+        kategori: item.kategori,
+        jumlah_pilih: 1 
+      }))
+    }
+  } catch (error) {
+    console.error('Katalog master barang di DB kosong. Menggunakan data cadangan bawaan.')
+  }
+}
+
 // State untuk Filter Kategori
 const kategoriTerpilih = ref('Semua')
 
@@ -33,29 +57,24 @@ const daftarKategori = computed(() => {
 })
 
 const barangTerfilter = computed(() => {
-  if (kategoriTerpilih.value === 'Semua') {
-    return masterBarang.value
-  }
+  if (kategoriTerpilih.value === 'Semua') return masterBarang.value
   return masterBarang.value.filter(item => item.kategori === kategoriTerpilih.value)
 })
 
 // 2. State untuk Form Input Manual
 const formManual = ref({
   nama_barang: '',
-  harga_satuan_display: '', // ex: 700.000
+  harga_satuan_display: '', 
   jumlah: 1,
   spesifikasi: ''
 })
 
-// 🛠️ STATE BARU: Penanda apakah user sudah menekan tombol submit manual
 const formSubmitted = ref(false)
 
-// 🛠️ COMPUTED UTK VALIDASI: Mengecek keaslian isi tiap kolom secara real-time
 const isNamaBarangError = computed(() => formSubmitted.value && !formManual.value.nama_barang.trim())
 const isHargaError = computed(() => formSubmitted.value && (!formManual.value.harga_satuan_display || hargaSatuanAsli.value <= 0))
 const isSpesifikasiError = computed(() => formSubmitted.value && !formManual.value.spesifikasi.trim())
 
-// Pencegatan Keydown untuk Angka
 const filterKarakterAngka = (event) => {
   const key = event.key
   if (
@@ -64,12 +83,9 @@ const filterKarakterAngka = (event) => {
   ) {
     return
   }
-  if (!/^[0-9]$/.test(key)) {
-    event.preventDefault()
-  }
+  if (!/^[0-9]$/.test(key)) event.preventDefault()
 }
 
-// Format pemisah ribuan saat angka diketik
 const handleInputHarga = (event) => {
   let nilaiMurni = event.target.value.replace(/\D/g, '')
   if (nilaiMurni) {
@@ -79,13 +95,12 @@ const handleInputHarga = (event) => {
   }
 }
 
-// Angka murni untuk kalkulasi array keranjang
 const hargaSatuanAsli = computed(() => {
   if (!formManual.value.harga_satuan_display) return 0
   return Number(formManual.value.harga_satuan_display.replace(/\./g, ''))
 })
 
-// 3. State Keranjang Belanja
+// 3. Array Keranjang Belanja
 const keranjang = ref([])
 
 const ubahQtyMaster = (barang, aksi) => {
@@ -96,43 +111,78 @@ const ubahQtyMaster = (barang, aksi) => {
   }
 }
 
-const tambahDariMaster = (barang) => {
-  const itemAda = keranjang.value.find(item => item.nama_barang === barang.nama_barang)
-  
-  if (itemAda) {
-    itemAda.jumlah += barang.jumlah_pilih
-  } else {
-    keranjang.value.push({
-      nama_barang: barang.nama_barang,
-      harga_satuan: barang.harga_satuan,
-      jumlah: barang.jumlah_pilih,
-      spesifikasi: barang.spesifikasi_umum
+// Menambahkan barang dari tabel standar ke keranjang database MySQL
+const tambahDariMaster = async (barang) => {
+  try {
+    const token = localStorage.getItem('auth_token')
+    
+    // KITA PAKAI ID ASLI DARI DATABASE SEKARANG!
+    await axios.post('http://localhost:8889/api/keranjang', {
+      master_barang_id: barang.id,
+      jumlah: barang.jumlah_pilih
+    }, {
+      headers: { Authorization: `Bearer ${token}` }
     })
+    
+    const itemAda = keranjang.value.find(item => item.nama_barang === barang.nama_barang)
+    if (itemAda) {
+      itemAda.jumlah += barang.jumlah_pilih
+    } else {
+      keranjang.value.push({
+        master_barang_id: barang.id,
+        nama_barang: barang.nama_barang,
+        harga_satuan: barang.harga_satuan,
+        jumlah: barang.jumlah_pilih,
+        spesifikasi: barang.spesifikasi_umum
+      })
+    }
+    barang.jumlah_pilih = 1
+    
+  } catch (error) {
+    // 🚨 RADAR ERROR SUPER JITU 🚨
+    const serverError = error.response?.data;
+    alert("❌ GAGAL! Ini alasan dari server:\n" + JSON.stringify(serverError, null, 2));
+    console.error('Error lengkap:', error);
   }
-  barang.jumlah_pilih = 1
 }
 
-// 4. Fungsi Menambahkan Barang Input Manual ke Keranjang (Dengan Error Handling)
-const tambahManual = () => {
-  // Aktifkan mode submitted untuk memicu deteksi border merah
+// Menambahkan barang input manual ke keranjang database MySQL
+const tambahManual = async () => {
   formSubmitted.value = true
 
-  // Jika ada salah satu yang error (Kosong), batalkan pengiriman ke keranjang
   if (isNamaBarangError.value || isHargaError.value || isSpesifikasiError.value) {
     return
   }
 
-  // Jika semua lolos validasi, masukkan ke keranjang
-  keranjang.value.push({
-    nama_barang: formManual.value.nama_barang,
-    harga_satuan: hargaSatuanAsli.value,
-    jumlah: Number(formManual.value.jumlah),
-    spesifikasi: formManual.value.spesifikasi
-  })
+  try {
+    const token = localStorage.getItem('auth_token')
+    
+    // PERBAIKAN PAYLOAD: Mengirim data spesifikasi murni apa adanya ke backend Lumen
+    await axios.post('http://localhost:8889/api/keranjang', {
+      master_barang_id: null, 
+      nama_barang_kustom: formManual.value.nama_barang,
+      harga_estimasi: hargaSatuanAsli.value,
+      jumlah: Number(formManual.value.jumlah),
+      spesifikasi: formManual.value.spesifikasi 
+    }, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
 
-  // Reset Form dan Kembalikan state error ke normal (false)
-  formManual.value = { nama_barang: '', harga_satuan_display: '', jumlah: 1, spesifikasi: '' }
-  formSubmitted.value = false
+    keranjang.value.push({
+      master_barang_id: null,
+      nama_barang: formManual.value.nama_barang,
+      harga_satuan: hargaSatuanAsli.value,
+      jumlah: Number(formManual.value.jumlah),
+      spesifikasi: formManual.value.spesifikasi
+    })
+
+    // Bersihkan kembali form input
+    formManual.value = { nama_barang: '', harga_satuan_display: '', jumlah: 1, spesifikasi: '' }
+    formSubmitted.value = false
+  } catch (error) {
+    console.error('Gagal memasukkan barang custom ke keranjang DB:', error)
+    alert(error.response?.data?.message || 'Gagal menambahkan barang custom ke server.')
+  }
 }
 
 const hapusItem = (index) => {
@@ -146,6 +196,38 @@ const totalHargaKeseluruhan = computed(() => {
 const formatRupiah = (angka) => {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka)
 }
+
+// Fungsi Kirim Semua Pengajuan
+const kirimPengajuanKeDatabase = async () => {
+  if (keranjang.value.length === 0) {
+    alert('Keranjang belanja kamu masih kosong!')
+    return
+  }
+
+  try {
+    const token = localStorage.getItem('auth_token')
+    
+    // Tembak request checkout ke backend Lumen
+    await axios.post('http://localhost:8889/api/pengajuan', {}, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+
+    // Kosongkan state keranjang di frontend
+    keranjang.value = []
+    
+    // Langsung redirect ke dashboard utama tanpa memunculkan pop-up OK lagi
+    router.push('/').then(() => {
+      window.location.reload()
+    })
+  } catch (error) {
+    console.error('Gagal melakukan checkout:', error)
+    alert(error.response?.data?.message || 'Terjadi kesalahan saat checkout pengajuan.')
+  }
+}
+
+onMounted(() => {
+  fetchMasterBarangUmum()
+})
 </script>
 
 <template>
@@ -213,7 +295,7 @@ const formatRupiah = (angka) => {
                     min="1" 
                     class="w-10 text-center text-xs font-bold focus:outline-none h-full border-x border-gray-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   >
-                  <button 
+                   <button 
                     @click="ubahQtyMaster(barang, 'tambah')"
                     class="px-2 text-gray-600 hover:bg-gray-100 font-bold h-full transition text-sm"
                   >
@@ -250,7 +332,7 @@ const formatRupiah = (angka) => {
               >
               <span v-if="isNamaBarangError" class="text-red-500 text-[11px] mt-1 block font-medium">Nama barang wajib diisi!</span>
             </div>
-            
+           
             <div>
               <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Estimasi Harga Satuan</label>
               <div 
@@ -268,7 +350,7 @@ const formatRupiah = (angka) => {
                   Rp
                 </span>
                 <input 
-                  :value="formManual.harga_satuan_display"
+                   :value="formManual.harga_satuan_display"
                   @keydown="filterKarakterAngka"
                   @input="handleInputHarga"
                   type="text" 
@@ -286,7 +368,7 @@ const formatRupiah = (angka) => {
 
             <div>
               <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Spesifikasi Detail</label>
-              <input 
+               <input 
                 v-model="formManual.spesifikasi" 
                 type="text" 
                 :class="[
@@ -354,12 +436,10 @@ const formatRupiah = (angka) => {
               <span class="text-gray-600 font-medium">Total Anggaran:</span>
               <span class="text-xl font-extrabold text-emerald-600">{{ formatRupiah(totalHargaKeseluruhan) }}</span>
             </div>
-            <button 
-              :disabled="keranjang.length === 0"
-              class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl shadow-md transition text-center text-sm uppercase tracking-wider"
-            >
-              Kirim Semua Pengajuan
-            </button>
+            <button @click="kirimPengajuanKeDatabase" :disabled="keranjang.length === 0"
+            class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl shadow-md transition text-center text-sm uppercase tracking-wider">
+            Kirim Semua Pengajuan
+          </button>
           </div>
 
         </div>

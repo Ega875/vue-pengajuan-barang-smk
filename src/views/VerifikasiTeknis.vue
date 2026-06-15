@@ -6,22 +6,24 @@
       <header class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            Riwayat Pengajuan Berkas
+            Verifikasi Teknis Pengajuan Barang
           </h1>
-          <p class="text-gray-500 text-sm mt-1">Pantau rekam jejak, status alur, dan perbaiki berkas pengadaan sekolah di sini.</p>
+          <p class="text-gray-500 text-sm mt-1">Periksa kecocokan data fisik, kelayakan, dan kesesuaian anggaran pengadaan sekolah.</p>
         </div>
         
-        <router-link v-if="roleUser === 'jurusan'" to="/pengajuan" class="bg-indigo-900 hover:bg-indigo-950 text-white font-bold px-5 py-2.5 rounded-xl text-xs transition shadow-md flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-          Buat Pengajuan Baru
-        </router-link>
+        <div class="bg-white border border-gray-200 px-4 py-2 rounded-xl flex items-center gap-3 shadow-sm">
+          <span class="text-xs font-bold text-gray-500">Tugas Pengecekan:</span>
+          <span class="bg-indigo-100 text-indigo-800 font-black px-3 py-1 rounded-lg text-[10px] uppercase tracking-wider">
+            {{ roleUser }}
+          </span>
+        </div>
       </header>
 
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-200">
         <div class="p-5 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <h3 class="font-bold text-gray-800">Semua Data Pengajuan</h3>
+          <h3 class="font-bold text-gray-800">Antrean Validasi Berkas Berantai</h3>
           
-          <div class="flex flex-col sm:flex-row gap-3">
+          <div class="flex flex-col sm:flex-row gap-3 relative">
             <div v-if="roleUser !== 'jurusan'" class="relative">
               <div 
                 @click="isFilterDropdownOpen = !isFilterDropdownOpen"
@@ -36,7 +38,7 @@
               
               <div v-if="isFilterDropdownOpen" @click="isFilterDropdownOpen = false" class="fixed inset-0 z-[5]"></div>
               
-              <div v-if="isFilterDropdownOpen" class="absolute right-0 z-10 mt-1.5 w-48 bg-white border border-gray-100 rounded-xl shadow-xl overflow-y-auto max-h-60 custom-scrollbar py-1.5">
+              <div v-if="isFilterDropdownOpen" class="absolute right-0 z-10 mt-1.5 w-48 bg-white border border-gray-100 rounded-xl shadow-xl overflow-y-auto max-h-48 custom-scrollbar py-1.5">
                 <div 
                   v-for="jurusan in listJurusanTersedia" 
                   :key="jurusan"
@@ -63,7 +65,7 @@
           </div>
         </div>
 
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto rounded-b-2xl overflow-hidden">
           <table class="w-full text-sm table-fixed min-w-[800px]">
             <thead>
               <tr class="bg-gray-50 text-gray-400 text-xs uppercase font-bold text-left border-b border-gray-100">
@@ -81,7 +83,7 @@
                   <div class="text-xs text-gray-600 font-semibold mt-0.5 truncate" :title="item.item">{{ item.item }}</div>
                 </td>
                 <td v-if="roleUser !== 'jurusan'" class="px-6 py-4 font-bold text-xs text-indigo-950 truncate">
-                  🏢 Jurusan {{ item.asal_jurusan }}
+                  Jurusan {{ item.asal_jurusan }}
                 </td>
                 <td class="px-6 py-4 text-gray-400 text-xs font-medium truncate">{{ item.tgl }}</td>
                 <td class="px-6 py-4 text-center">
@@ -97,8 +99,8 @@
               </tr>
               
               <tr v-if="pengajuanTersaring.length === 0">
-                <td :colspan="roleUser === 'jurusan' ? 4 : 5" class="px-6 py-12 text-center text-gray-400 text-xs italic">
-                  Belum ada riwayat pengajuan di kategori ini.
+                <td colspan="5" class="px-6 py-12 text-center text-gray-400 text-xs italic">
+                  Belum ada antrean validasi dokumen di kategori ini.
                 </td>
               </tr>
             </tbody>
@@ -113,7 +115,7 @@
         <div class="flex justify-between items-start border-b border-gray-100 pb-4 mb-4 bg-gray-50/50 -mx-6 px-6 -mt-6 pt-6">
           <div>
             <span class="text-[10px] font-black text-indigo-600 bg-indigo-50 border border-indigo-200/50 px-2.5 py-1 rounded-md uppercase tracking-wider">
-              {{ isEditing ? 'Panel Form Perbaikan Berkas' : 'Detail Kelayakan Nota Pengadaan' }}
+              Detail Kelayakan Nota Pengadaan
             </span>
             <h2 class="text-xl font-black text-gray-900 mt-2 tracking-wide flex items-center gap-2">
               {{ selectedPengajuan.id }}
@@ -149,7 +151,6 @@
                   <th class="px-4 py-3 text-center w-24">Kuantitas</th>
                   <th class="px-4 py-3 text-right">Harga Perkiraan</th>
                   <th class="px-4 py-3 text-right">Subtotal</th>
-                  <th v-if="isEditing" class="px-4 py-3 text-center w-12">Aksi</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-100 font-medium text-gray-700">
@@ -158,22 +159,14 @@
                     <div class="font-bold text-gray-800">{{ subItem.nama_barang }}</div>
                     <div class="text-[11px] text-gray-400 mt-0.5 font-medium italic">{{ subItem.keterangan }}</div>
                   </td>
-                  <td class="px-4 py-3 text-center">
-                    <input v-if="isEditing" type="number" v-model.number="subItem.jumlah" min="1" class="w-16 p-1 border border-gray-300 rounded text-center font-bold text-xs" />
-                    <span v-else class="font-bold text-gray-800">{{ subItem.jumlah }} Unit</span>
+                  <td class="px-4 py-3 text-center font-bold text-gray-800">
+                    {{ subItem.jumlah }} Unit
                   </td>
                   <td class="px-4 py-3 text-right text-gray-500 whitespace-nowrap">
                     {{ formatRupiah(subItem.harga_estimasi) }}
                   </td>
                   <td class="px-4 py-3 text-right font-bold text-indigo-950 whitespace-nowrap">
                     {{ formatRupiah(subItem.jumlah * subItem.harga_estimasi) }}
-                  </td>
-                  <td v-if="isEditing" class="px-4 py-3 text-center">
-                    <button @click="hapusItemBarangDariRevisi(index)" class="text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition border border-transparent hover:border-red-100" title="Hapus Barang Ini">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                      </svg>
-                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -190,27 +183,9 @@
           </div>
         </div>
 
-        <div v-if="isEditing || (roleUser === 'jurusan' && selectedPengajuan.status === 'ditolak') || (roleUser === 'sarpras' && selectedPengajuan.status === 'pending_sarpras') || (roleUser === 'keuangan' && selectedPengajuan.status === 'pending_keuangan') || (roleUser === 'kepsek' && selectedPengajuan.status === 'pending_kepsek')" class="flex items-center border-t border-gray-100 pt-4 justify-end gap-2">
-          
-          <template v-if="isEditing">
-            <span class="text-[10px] text-gray-400 italic mr-auto">Spesifikasi sudah dipatenkan. Anda hanya bisa mengubah jumlah unit atau menghapus barang.</span>
-            <button @click="batalRevisiLokal" class="bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold px-4 py-2 rounded-xl text-xs transition">Batal</button>
-            <button @click="simpanRevisi" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-md">
-              Simpan & Ajukan Ulang
-            </button>
-          </template>
-
-          <template v-else>
-            <div v-if="roleUser === 'jurusan' && selectedPengajuan.status === 'ditolak'" class="flex gap-2 w-full justify-start">
-              <button @click="bukaModeRevisi" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
-                Lakukan Perbaikan Berkas
-              </button>
-              <button @click="konfirmasiHapusPengajuan" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold px-4 py-2 rounded-xl text-xs transition">
-                Batalkan Nota Berkas
-              </button>
-            </div>
-
-            <div v-else-if="roleUser === 'sarpras' && selectedPengajuan.status === 'pending_sarpras'" class="flex gap-2 w-full justify-end">
+        <div v-if="(roleUser === 'sarpras' && selectedPengajuan.status === 'pending_sarpras') || (roleUser === 'keuangan' && selectedPengajuan.status === 'pending_keuangan') || (roleUser === 'kepsek' && selectedPengajuan.status === 'pending_kepsek')" class="flex items-center border-t border-gray-100 pt-4 justify-end gap-2">
+            
+            <div v-if="roleUser === 'sarpras' && selectedPengajuan.status === 'pending_sarpras'" class="flex gap-2 w-full justify-end">
               <button @click="keputusanVerifikator('ditolak')" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-2 rounded-xl text-xs transition">Kembalikan / Revisi</button>
               <button @click="keputusanVerifikator('pending_keuangan')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition">Verifikasi Layak (Kirim ke Keuangan)</button>
             </div>
@@ -224,7 +199,6 @@
               <button @click="keputusanVerifikator('ditolak')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition">Tolak / Tolak Dokumen</button>
               <button @click="keputusanVerifikator('disetujui')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition">Ketuk Palu Persetujuan Akhir</button>
             </div>
-          </template>
         </div>
       </div>
     </div>
@@ -264,24 +238,6 @@
       </div>
     </div>
 
-    <div v-if="isHapusModalOpen" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] p-4">
-      <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-6 relative border border-red-100 text-center">
-        <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-red-600">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3Z" />
-          </svg>
-        </div>
-        <h3 class="text-xl font-bold text-gray-900 mb-2">Batalkan Berkas?</h3>
-        <p class="text-sm text-gray-500 leading-relaxed mb-6">
-          Apakah Anda yakin ingin membatalkan dokumen pengajuan <b>{{ selectedPengajuan.id }}</b> ini secara permanen? Data yang dibatalkan akan dihapus.
-        </p>
-        <div class="flex items-center justify-center gap-3">
-          <button @click="isHapusModalOpen = false" class="px-5 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold transition w-full">Tidak, Kembali</button>
-          <button @click="eksekusiHapusPengajuan" class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition shadow-md w-full">Ya, Batalkan!</button>
-        </div>
-      </div>
-    </div>
-
   </div>
 </template>
 
@@ -289,16 +245,26 @@
 import Sidebar from '../components/Sidebar.vue'
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
-import { useRouter } from 'vue-router'
-
-const router = useRouter() 
 
 const namaUser = ref('Pengguna')
-const roleUser = ref('jurusan')
+const roleUser = ref('sarpras')
 const tabAktif = ref('Semua')
 
+// --- TAMBAHKAN 2 BLOK KODE INI ---
+const filterJurusan = ref('Semua Jurusan') // State untuk menyimpan jurusan yang dipilih
+const isFilterDropdownOpen = ref(false)
+const pilihFilterJurusan = (jurusan) => {
+  filterJurusan.value = jurusan
+  isFilterDropdownOpen.value = false
+}
+// Otomatis mengambil daftar nama jurusan yang unik dari data pengajuan
+const listJurusanTersedia = computed(() => {
+  const jurusanSet = new Set(daftarPengajuan.value.map(p => p.asal_jurusan))
+  return ['Semua Jurusan', ...Array.from(jurusanSet).sort()]
+})
+// ---------------------------------
+
 const isModalOpen = ref(false)
-const isEditing = ref(false)
 const selectedPengajuan = ref({})
 const daftarPengajuan = ref([])
 
@@ -307,9 +273,7 @@ const catatanInput = ref('')
 const pendingStatus = ref('')
 const errorCatatan = ref('')
 
-const isHapusModalOpen = ref(false)
-
-const fetchRiwayatData = async () => {
+const fetchDataValidasi = async () => {
   try {
     const token = localStorage.getItem('auth_token')
     const response = await axios.get('http://localhost:8889/api/pengajuan', {
@@ -387,39 +351,42 @@ const fetchRiwayatData = async () => {
           list_barang: listBarangSteril
         }
       })
-    } else {
-      alert('Gagal mengambil data dari server: ' + response.data.message)
     }
   } catch (error) {
     console.error('Gagal memuat data:', error)
-    alert('Terjadi error memuat list pengajuan: ' + (error.response?.data?.message || error.message))
   }
 }
 
-// FUNGSI FILTER BERDASARKAN KACAMATA ROLE MASING-MASING
+// FUNGSI FILTER BERDASARKAN KACAMATA ROLE MASING-MASING VERIFIKATOR
 const pengajuanTersaring = computed(() => {
-  if (tabAktif.value === 'Semua') return daftarPengajuan.value
-
-  if (roleUser.value === 'sarpras') {
-    if (tabAktif.value === 'Menunggu') return daftarPengajuan.value.filter(p => p.status === 'pending_sarpras')
-    if (tabAktif.value === 'Disetujui') return daftarPengajuan.value.filter(p => ['pending_keuangan', 'pending_kepsek', 'disetujui'].includes(p.status))
-    if (tabAktif.value === 'Ditolak') return daftarPengajuan.value.filter(p => p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('SARPRAS'))
-  } else if (roleUser.value === 'keuangan') {
-    if (tabAktif.value === 'Menunggu') return daftarPengajuan.value.filter(p => p.status === 'pending_keuangan')
-    if (tabAktif.value === 'Disetujui') return daftarPengajuan.value.filter(p => ['pending_kepsek', 'disetujui'].includes(p.status))
-    if (tabAktif.value === 'Ditolak') return daftarPengajuan.value.filter(p => p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('KEUANGAN'))
-  } else if (roleUser.value === 'kepsek') {
-    if (tabAktif.value === 'Menunggu') return daftarPengajuan.value.filter(p => p.status === 'pending_kepsek')
-    if (tabAktif.value === 'Disetujui') return daftarPengajuan.value.filter(p => p.status === 'disetujui')
-    if (tabAktif.value === 'Ditolak') return daftarPengajuan.value.filter(p => p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('KEPSEK'))
-  } else {
-    // JURUSAN
-    if (tabAktif.value === 'Menunggu') return daftarPengajuan.value.filter(p => p.status && p.status.startsWith('pending_'))
-    if (tabAktif.value === 'Disetujui') return daftarPengajuan.value.filter(p => p.status === 'disetujui')
-    if (tabAktif.value === 'Ditolak') return daftarPengajuan.value.filter(p => p.status === 'ditolak')
+  // 1. Saring berdasarkan JURUSAN terlebih dahulu
+  let hasilFilter = daftarPengajuan.value
+  if (filterJurusan.value !== 'Semua Jurusan') {
+    hasilFilter = hasilFilter.filter(p => p.asal_jurusan === filterJurusan.value)
   }
 
-  return daftarPengajuan.value
+  // 2. Saring hasil nomor 1 berdasarkan STATUS (Tab Aktif)
+  if (tabAktif.value === 'Semua') return hasilFilter
+
+  if (roleUser.value === 'sarpras') {
+    if (tabAktif.value === 'Menunggu') return hasilFilter.filter(p => p.status === 'pending_sarpras')
+    if (tabAktif.value === 'Disetujui') return hasilFilter.filter(p => ['pending_keuangan', 'pending_kepsek', 'disetujui'].includes(p.status))
+    if (tabAktif.value === 'Ditolak') return hasilFilter.filter(p => p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('SARPRAS'))
+  } else if (roleUser.value === 'keuangan') {
+    if (tabAktif.value === 'Menunggu') return hasilFilter.filter(p => p.status === 'pending_keuangan')
+    if (tabAktif.value === 'Disetujui') return hasilFilter.filter(p => ['pending_kepsek', 'disetujui'].includes(p.status))
+    if (tabAktif.value === 'Ditolak') return hasilFilter.filter(p => p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('KEUANGAN'))
+  } else if (roleUser.value === 'kepsek') {
+    if (tabAktif.value === 'Menunggu') return hasilFilter.filter(p => p.status === 'pending_kepsek')
+    if (tabAktif.value === 'Disetujui') return hasilFilter.filter(p => p.status === 'disetujui')
+    if (tabAktif.value === 'Ditolak') return hasilFilter.filter(p => p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('KEPSEK'))
+  } else {
+    if (tabAktif.value === 'Menunggu') return hasilFilter.filter(p => p.status && p.status.startsWith('pending_'))
+    if (tabAktif.value === 'Disetujui') return hasilFilter.filter(p => p.status === 'disetujui')
+    if (tabAktif.value === 'Ditolak') return hasilFilter.filter(p => p.status === 'ditolak')
+  }
+
+  return hasilFilter
 })
 
 const hitungTotalSemuaBarang = (list) => {
@@ -430,63 +397,6 @@ const hitungTotalSemuaBarang = (list) => {
 const bukaDetail = (item) => {
   selectedPengajuan.value = JSON.parse(JSON.stringify(item))
   isModalOpen.value = true
-  isEditing.value = false
-}
-
-const bukaModeRevisi = () => {
-  isEditing.value = true
-}
-
-const batalRevisiLokal = () => {
-  isEditing.value = false
-  const dataAsli = daftarPengajuan.value.find(p => p.id_asli === selectedPengajuan.value.id_asli)
-  if (dataAsli) {
-    selectedPengajuan.value = JSON.parse(JSON.stringify(dataAsli))
-  }
-}
-
-const hapusItemBarangDariRevisi = (index) => {
-  if (selectedPengajuan.value.list_barang.length <= 1) {
-    alert('Minimal harus ada 1 barang dalam pengajuan! Jika ingin membatalkan pengajuan ini sepenuhnya, silakan klik tombol "Batal" lalu pilih "Batalkan Nota Berkas".')
-    return
-  }
-  selectedPengajuan.value.list_barang.splice(index, 1)
-}
-
-const simpanRevisi = async () => {
-  try {
-    const token = localStorage.getItem('auth_token')
-    await axios.post(`http://localhost:8889/api/pengajuan-detail/${selectedPengajuan.value.id_asli}`, {
-      list_barang: selectedPengajuan.value.list_barang
-    }, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    
-    isModalOpen.value = false
-    fetchRiwayatData()
-  } catch (error) {
-    console.error('Gagal menyimpan revisi:', error)
-    alert('ERROR SISTEM: ' + (error.response?.data?.message || 'Server Lumen Gagal Merespon!'))
-  }
-}
-
-const konfirmasiHapusPengajuan = () => {
-  isHapusModalOpen.value = true
-}
-
-const eksekusiHapusPengajuan = async () => {
-  try {
-    const token = localStorage.getItem('auth_token')
-    await axios.delete(`http://localhost:8889/api/pengajuan/${selectedPengajuan.value.id_asli}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    isHapusModalOpen.value = false
-    isModalOpen.value = false
-    fetchRiwayatData() 
-  } catch (error) {
-    console.error('Gagal menghapus pengajuan:', error)
-    alert('Gagal membatalkan nota berkas.')
-  }
 }
 
 const keputusanVerifikator = (statusBaru) => {
@@ -521,7 +431,7 @@ const eksekusiStatusAPI = async (status_final, catatan_final) => {
     
     isCatatanModalOpen.value = false
     isModalOpen.value = false
-    fetchRiwayatData()
+    fetchDataValidasi()
   } catch (error) {
     console.error('Gagal memperbarui status verifikator:', error)
     alert('GAGAL KIRIM KEPUTUSAN! Error: ' + (error.response?.data?.message || 'Server backend bermasalah.'))
@@ -558,7 +468,7 @@ const formatRupiah = (angka) => 'Rp ' + Number(angka).toLocaleString('id-ID')
 
 onMounted(() => {
   namaUser.value = localStorage.getItem('user_name') || 'Pengguna'
-  roleUser.value = (localStorage.getItem('user_role') || 'jurusan').toLowerCase()
-  fetchRiwayatData()
+  roleUser.value = (localStorage.getItem('user_role') || 'sarpras').toLowerCase()
+  fetchDataValidasi()
 })
 </script>
