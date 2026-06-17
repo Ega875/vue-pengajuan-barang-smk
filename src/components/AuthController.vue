@@ -1,0 +1,161 @@
+<template>
+  <aside class="w-64 bg-indigo-950 text-white flex flex-col h-screen sticky top-0 text-left border-r border-indigo-900/50 shadow-xl">
+    
+    <div class="p-6 border-b border-indigo-900 flex flex-col gap-2 bg-indigo-950/40">
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-indigo-400">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+        </svg>
+        <span class="font-extrabold tracking-wide text-lg text-gray-100">SMK SYSTEM</span>
+      </div>
+      <span class="text-[10px] text-indigo-300 font-bold tracking-widest uppercase bg-indigo-900/60 px-2.5 py-1 rounded-md w-max border border-indigo-800/30">
+        {{ roleUser }}
+      </span>
+    </div>
+    
+    <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+      
+      <router-link 
+        to="/" 
+        class="flex items-center py-2.5 px-4 rounded-xl text-sm font-semibold transition duration-200 text-indigo-200 hover:bg-indigo-900/60 hover:text-white group"
+        active-class="bg-indigo-600 !text-white shadow-md shadow-indigo-600/20"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-3 text-indigo-400 group-hover:text-white transition-colors">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z" />
+        </svg>
+        Dashboard
+      </router-link>
+
+      <template v-if="roleUser === 'jurusan'">
+        <router-link 
+          to="/pengajuan" 
+          class="flex items-center py-2.5 px-4 rounded-xl text-sm font-semibold transition duration-200 text-indigo-200 hover:bg-indigo-900/60 hover:text-white group"
+          active-class="bg-indigo-600 !text-white shadow-md shadow-indigo-600/20"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-3 text-indigo-400 group-hover:text-white transition-colors">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+          </svg>
+          Pengajuan Barang
+        </router-link>
+
+        <router-link 
+          to="/riwayat" 
+          class="flex items-center py-2.5 px-4 rounded-xl text-sm font-semibold transition duration-200 text-indigo-200 hover:bg-indigo-900/60 hover:text-white group"
+          active-class="bg-indigo-600 !text-white shadow-md shadow-indigo-600/20"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-3 text-indigo-400 group-hover:text-white transition-colors">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          Riwayat Pengajuan
+        </router-link>
+      </template>
+
+      <template v-if="roleUser === 'sarpras'">
+        <router-link 
+          to="/verifikasi-sarpras" 
+          class="flex items-center py-2.5 px-4 rounded-xl text-sm font-semibold transition duration-200 text-indigo-200 hover:bg-indigo-900/60 hover:text-white group"
+          active-class="bg-indigo-600 !text-white shadow-md shadow-indigo-600/20"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-3 text-indigo-400 group-hover:text-white transition-colors">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          Verifikasi Teknis
+        </router-link>
+
+        <router-link 
+          to="/master-barang" 
+          class="flex items-center py-2.5 px-4 rounded-xl text-sm font-semibold transition duration-200 text-indigo-200 hover:bg-indigo-900/60 hover:text-white group"
+          active-class="bg-indigo-600 !text-white shadow-md shadow-indigo-600/20"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-3 text-indigo-400 group-hover:text-white transition-colors">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25m-9-5.25v9l9 5.25" />
+          </svg>
+          Master Barang Umum
+        </router-link>
+
+        <router-link 
+          to="/kelola-user" 
+          class="flex items-center py-2.5 px-4 rounded-xl text-sm font-semibold transition duration-200 text-indigo-200 hover:bg-indigo-900/60 hover:text-white group"
+          active-class="bg-indigo-600 !text-white shadow-md shadow-indigo-600/20"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-3 text-indigo-400 group-hover:text-white transition-colors">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a8.967 8.967 0 0 1-6 2.281 8.965 8.965 0 0 1-6-2.28c0-.011.001-.022.001-.033a6.063 6.063 0 0 1 5.999-6.033c1.99 0 3.805.646 5.275 1.734m0 0a8.924 8.924 0 0 1 2.146 2.535M17.25 12a3.75 3.75 0 1 0-7.5 0 3.75 3.75 0 0 0 7.5 0Zm4.5-1.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0ZM16.5 6a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM13.5 6a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+          </svg>
+          Manajemen Akun
+        </router-link>
+      </template>
+
+      <template v-if="roleUser === 'keuangan'">
+        <router-link 
+          to="/verifikasi-anggaran" 
+          class="flex items-center py-2.5 px-4 rounded-xl text-sm font-semibold transition duration-200 text-indigo-200 hover:bg-indigo-900/60 hover:text-white group"
+          active-class="bg-indigo-600 !text-white shadow-md shadow-indigo-600/20"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-3 text-indigo-400 group-hover:text-white transition-colors">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.83-1.106-2.17 0-3 1.147-.86 2.859-.86 4.006 0l.415.311M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          Verifikasi Anggaran
+        </router-link>
+      </template>
+
+      <template v-if="roleUser === 'kepsek'">
+        <router-link 
+          to="/persetujuan-akhir" 
+          class="flex items-center py-2.5 px-4 rounded-xl text-sm font-semibold transition duration-200 text-indigo-200 hover:bg-indigo-900/60 hover:text-white group"
+          active-class="bg-indigo-600 !text-white shadow-md shadow-indigo-600/20"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-3 text-indigo-400 group-hover:text-white transition-colors">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          Keputusan Akhir
+        </router-link>
+      </template>
+
+    </nav>
+
+    <div class="p-4 border-t border-indigo-900">
+      <button 
+        type="button"
+        @click="handleLogout" 
+        class="w-full text-left py-2.5 px-4 text-sm font-bold text-indigo-300 hover:text-red-400 hover:bg-red-950/30 rounded-xl transition-all duration-200 flex items-center group"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-3 text-indigo-400 group-hover:text-red-400 transition-colors">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+        </svg>
+        Keluar Sesi
+      </button>
+    </div>
+  </aside>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
+
+const router = useRouter()
+const roleUser = ref('jurusan')
+
+onMounted(() => {
+  const storedRole = localStorage.getItem('user_role')
+  if (storedRole) {
+    roleUser.value = storedRole.toLowerCase()
+  }
+})
+
+const handleLogout = async () => {
+  try {
+    const token = localStorage.getItem('auth_token')
+    await axios.post('http://localhost:8889/api/logout', {}, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+  } catch (error) {
+    console.error('Gagal sinkronisasi sesi logout dengan server:', error)
+  } finally {
+    localStorage.removeItem('auth_token')
+    localStorage.removeItem('user_role')
+    localStorage.removeItem('user_name')
+    router.push('/login')
+  }
+}
+</script>

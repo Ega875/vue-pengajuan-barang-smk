@@ -15,12 +15,16 @@
         
         <div v-if="roleUser === 'sarpras'" class="flex gap-2">
           <button @click="router.push('/master-barang')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-sm flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25m-9-5.25v9l9 5.25" /></svg>
-              Kelola Master Barang
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25m-9-5.25v9l9 5.25" />
+            </svg>
+            Kelola Master Barang
           </button>
           <button @click="router.push('/kelola-user')" class="bg-teal-600 hover:bg-teal-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-sm flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a8.967 8.967 0 0 1-6 2.281 8.965 8.965 0 0 1-6-2.28c0-.011.001-.022.001-.033a6.063 6.063 0 0 1 5.999-6.033c1.99 0 3.805.646 5.275 1.734m0 0a8.924 8.924 0 0 1 2.146 2.535M17.25 12a3.75 3.75 0 1 0-7.5 0 3.75 3.75 0 0 0 7.5 0Z" /></svg>
-              Kelola Akun Pengguna
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+            </svg>
+            Kelola Akun Pengguna
           </button>
         </div>
       </header>
@@ -36,12 +40,15 @@
           </div>
           <div class="pr-2">
             <svg v-if="stat.type === 'total'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-indigo-500">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.625-5.25a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 7.5v.75m-18 0A2.25 2.25 0 0 1 4.5 6H6A2.25 2.25 0 0 1 8.25 8.25v.75m-6 0H21.75M2.25 9.75h19.5M3.75 19.5h16.5a1.5 1.5 0 0 0 1.5-1.5V13.5a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 13.5v4.5a1.5 1.5 0 0 0 1.5 1.5Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z" />
             </svg>
             <svg v-else-if="stat.type === 'pending'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-amber-500">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
-            <svg v-else-if="stat.type === 'disetujui'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-green-500">
+            <svg v-else-if="stat.type === 'proses'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-purple-500">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+            <svg v-else-if="stat.type === 'disetujui'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-emerald-500">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
             <svg v-else-if="stat.type === 'ditolak'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-red-500">
@@ -92,7 +99,7 @@
 
                 <div class="flex bg-gray-100 p-1 rounded-xl text-xs font-bold text-gray-500 border border-gray-200/50">
                   <button 
-                    v-for="tab in ['Semua', 'Menunggu', 'Disetujui', 'Ditolak']" 
+                    v-for="tab in tabList" 
                     :key="tab" @click="tabAktif = tab" class="px-3 py-1.5 rounded-lg transition"
                     :class="tabAktif === tab ? 'bg-white text-indigo-950 shadow-sm font-extrabold' : 'hover:text-gray-800'"
                   >
@@ -108,7 +115,7 @@
                   <tr class="bg-gray-50 text-gray-400 text-xs uppercase font-bold text-left border-b border-gray-100">
                     <th class="px-6 py-4" :class="roleUser === 'jurusan' ? 'w-[45%]' : 'w-[35%]'">Kode & Item Utama</th>
                     <th v-if="roleUser !== 'jurusan'" class="px-6 py-4 w-[15%]">Asal Instansi</th>
-                    <th class="px-6 py-4 w-[20%]">Tanggal Masuk</th>
+                    <th class="px-6 py-4" :class="roleUser === 'jurusan' ? 'w-[20%]' : 'w-[20%]'">Tanggal Masuk</th>
                     <th class="px-6 py-4 text-right" :class="roleUser === 'jurusan' ? 'w-[35%]' : 'w-[30%]'">Status Alur</th>
                   </tr>
                 </thead>
@@ -154,30 +161,109 @@
         </div>
 
         <div class="lg:col-span-1 space-y-6">
-          <div v-if="roleUser === 'jurusan'" class="bg-indigo-900 text-white p-6 rounded-2xl shadow-xl border border-indigo-950">
-            <h3 class="font-bold text-lg mb-2">Butuh Pengadaan Baru?</h3>
-            <p class="text-indigo-200 text-xs mb-6 leading-relaxed">
-              Silakan pilih barang siap pakai dari daftar katalog umum sekolah atau ajukan spesifikasi barang mandiri secara terperinci.
-            </p>
-            <router-link to="/pengajuan" class="bg-white text-indigo-950 px-4 py-3 rounded-xl font-black text-sm hover:bg-indigo-50 transition flex items-center justify-center gap-2 shadow-md">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-              BUAT NOTA PENGAJUAN
-            </router-link>
-          </div>
-
-          <div v-else class="bg-gradient-to-br from-slate-800 to-indigo-950 text-white p-6 rounded-2xl shadow-xl border border-slate-900">
-            <h3 class="font-bold text-lg mb-1 flex items-center gap-2">
-              Panel Peninjau Dokumen
-            </h3>
-            <p class="text-indigo-200/80 text-xs leading-relaxed mb-5 border-b border-white/10 pb-3">
-              Periksa kecocokan data fisik barang, kesesuaian anggaran, dan volume kuantitas secara saksama sebelum mengambil keputusan persetujuan.
-            </p>
-            <div class="bg-black/20 p-4 rounded-xl border border-white/5 text-[11px] text-indigo-100 leading-relaxed">
-              <span v-if="roleUser === 'sarpras'">💡 <b>Tanggung Jawab Sarpras:</b> Validasi kelayakan infrastruktur teknis serta spesifikasi barang sekolah.</span>
-              <span v-else-if="roleUser === 'keuangan'">💡 <b>Tanggung Jawab Keuangan:</b> Validasi ketersediaan dana melalui pagu anggaran internal.</span>
-              <span v-else-if="roleUser === 'kepsek'">💡 <b>Tanggung Jawab Kepsek:</b> Pengambil keputusan akhir secara regulasi institusi.</span>
+          
+          <template v-if="roleUser === 'jurusan'">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="bg-emerald-100 text-emerald-600 p-2.5 rounded-xl">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 0 0-2.25-2.25H15a3 3 0 1 1-6 0H5.25A2.25 2.25 0 0 0 3 12m18 0v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 9m18 0V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v3" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-bold text-gray-800 text-sm">Pagu Anggaran Jurusan</h3>
+                  <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Periode Semester Ini</p>
+                </div>
+              </div>
+              
+              <div class="bg-gray-50 rounded-xl p-4 border border-gray-200/60 space-y-3">
+                <div class="flex justify-between items-center pb-2 border-b border-gray-200/60">
+                  <span class="text-xs font-bold text-gray-500">Pagu Awal Alokasi:</span>
+                  <span class="text-xs font-black text-gray-700">{{ paguAnggaranJurusan > 0 ? formatRupiah(paguAnggaranJurusan) : 'Belum Diatur' }}</span>
+                </div>
+                <div class="flex justify-between items-center pb-2 border-b border-gray-200/60">
+                  <span class="text-xs font-bold text-gray-500">Dana Terpakai (Disetujui):</span>
+                  <span class="text-xs font-black text-red-500">- {{ formatRupiah(danaTerpakaiJurusan) }}</span>
+                </div>
+                <div class="flex justify-between items-center pt-1">
+                  <span class="text-xs font-black uppercase text-indigo-900 tracking-wider">Sisa Saldo:</span>
+                  <span class="text-xl font-black" :class="sisaSaldoJurusan > 0 ? 'text-emerald-600' : (sisaSaldoJurusan < 0 ? 'text-red-600' : 'text-gray-400')">
+                    {{ paguAnggaranJurusan > 0 ? formatRupiah(sisaSaldoJurusan) : 'Rp 0' }}
+                  </span>
+                </div>
+              </div>
+              
+              <p class="text-[9px] text-gray-400 leading-relaxed mt-3 italic text-center px-2">
+                *Sisa saldo akan berkurang otomatis jika pengajuan Anda telah disetujui penuh oleh Kepsek.
+              </p>
             </div>
-          </div>
+
+            <div class="bg-indigo-900 text-white p-6 rounded-2xl shadow-xl border border-indigo-950">
+              <h3 class="font-bold text-lg mb-2">Butuh Pengadaan Baru?</h3>
+              <p class="text-indigo-200 text-xs mb-6 leading-relaxed">
+                Silakan pilih barang siap pakai dari daftar katalog umum sekolah atau ajukan spesifikasi barang mandiri secara terperinci.
+              </p>
+              <router-link to="/pengajuan" class="bg-white text-indigo-950 px-4 py-3 rounded-xl font-black text-sm hover:bg-indigo-50 transition flex items-center justify-center gap-2 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                BUAT NOTA PENGAJUAN
+              </router-link>
+            </div>
+          </template>
+
+          <template v-else>
+            <div class="bg-gradient-to-br from-slate-800 to-indigo-950 text-white p-6 rounded-2xl shadow-xl border border-slate-900">
+              <h3 class="font-bold text-lg mb-1 flex items-center gap-2">
+                Panel Peninjau Dokumen
+              </h3>
+              <p class="text-indigo-200/80 text-xs leading-relaxed mb-5 border-b border-white/10 pb-3">
+                Periksa kecocokan data fisik barang, kesesuaian anggaran, dan volume kuantitas secara saksama sebelum mengambil keputusan persetujuan.
+              </p>
+              <div class="bg-black/20 p-4 rounded-xl border border-white/5 text-[11px] text-indigo-100 leading-relaxed">
+                <span v-if="roleUser === 'sarpras'">💡 <b>Tanggung Jawab Sarpras:</b> Validasi kelayakan infrastruktur teknis serta spesifikasi barang sekolah.</span>
+                <span v-else-if="roleUser === 'keuangan'">💡 <b>Tanggung Jawab Keuangan:</b> Validasi ketersediaan dana melalui pagu anggaran internal.</span>
+                <span v-else-if="roleUser === 'kepsek'">💡 <b>Tanggung Jawab Kepsek:</b> Pengambil keputusan akhir secara regulasi institusi.</span>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+              <div class="p-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
+                <h3 class="font-bold text-gray-800 text-sm flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-amber-500"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                  Klasemen Serapan Dana
+                </h3>
+              </div>
+              <div class="p-5">
+                <div v-if="leaderboardJurusan.length === 0" class="text-center text-xs text-gray-400 italic py-4">
+                  Belum ada data penyerapan anggaran.
+                </div>
+                <div v-else class="space-y-4">
+                  <div v-for="(rank, index) in leaderboardJurusan" :key="rank.nama" class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                      <div class="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black border"
+                           :class="index === 0 ? 'bg-amber-100 text-amber-700 border-amber-200 shadow-sm' : 
+                                  (index === 1 ? 'bg-slate-100 text-slate-600 border-slate-200' : 
+                                  (index === 2 ? 'bg-orange-50 text-orange-700 border-orange-200' : 
+                                  'bg-white text-gray-400 border-gray-100'))">
+                        #{{ index + 1 }}
+                      </div>
+                      <div>
+                        <p class="text-xs font-bold text-gray-800">Jurusan {{ rank.nama }}</p>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-[11px] font-black text-indigo-600 bg-indigo-50 px-2 py-1 rounded-md border border-indigo-100">
+                        {{ formatRupiah(rank.total) }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-[9px] text-gray-400 text-center mt-4 italic border-t border-gray-100 pt-3">
+                  *Diurutkan berdasarkan total nilai pengajuan yang telah Disetujui Penuh.
+                </p>
+              </div>
+            </div>
+          </template>
+
         </div>
       </div>
     </main>
@@ -217,24 +303,24 @@
           <span class="text-[10px] uppercase font-black text-gray-400 block tracking-wider mb-2.5">Rincian Komoditas Anggaran Berkas:</span>
           
           <div class="overflow-x-auto overflow-y-auto max-h-60 bg-white rounded-xl border border-gray-200 shadow-sm custom-scrollbar">
-            <table class="w-full text-left text-xs relative">
+            <table class="w-full text-left text-xs relative table-fixed">
               <thead class="bg-gray-50 text-gray-500 font-bold uppercase text-[9px] tracking-wider border-b sticky top-0 z-10 shadow-sm">
                 <tr>
-                  <th class="px-4 py-3">Nama Komoditas & Spesifikasi Teknis</th>
-                  <th class="px-4 py-3 text-center w-24">Kuantitas</th>
-                  <th class="px-4 py-3 text-right">Harga Perkiraan</th>
-                  <th class="px-4 py-3 text-right">Subtotal</th>
-                  <th v-if="isEditing" class="px-4 py-3 text-center w-12">Aksi</th>
+                  <th class="px-4 py-3" :class="isEditing ? 'w-[35%]' : 'w-[45%]'">Nama Komoditas & Spesifikasi Teknis</th>
+                  <th class="px-4 py-3 text-center" :class="isEditing ? 'w-[15%]' : 'w-[15%]'">Kuantitas</th>
+                  <th class="px-4 py-3 text-right" :class="isEditing ? 'w-[20%]' : 'w-[20%]'">Harga Perkiraan</th>
+                  <th class="px-4 py-3 text-right" :class="isEditing ? 'w-[20%]' : 'w-[20%]'">Subtotal</th>
+                  <th v-if="isEditing" class="px-4 py-3 text-center w-[10%]">Hapus</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-100 font-medium text-gray-700">
                 <tr v-for="(subItem, index) in selectedPengajuan.list_barang" :key="subItem.id" class="hover:bg-gray-50/50">
                   <td class="px-4 py-3">
-                    <div class="font-bold text-gray-800">{{ subItem.nama_barang }}</div>
-                    <div class="text-[11px] text-gray-400 mt-0.5 font-medium italic">{{ subItem.keterangan }}</div>
+                    <div class="font-bold text-gray-800 break-words">{{ subItem.nama_barang }}</div>
+                    <div class="text-[11px] text-gray-400 mt-0.5 font-medium italic break-words">{{ subItem.keterangan }}</div>
                   </td>
                   <td class="px-4 py-3 text-center">
-                    <input v-if="isEditing" type="number" v-model.number="subItem.jumlah" min="1" class="w-16 p-1 border border-gray-300 rounded text-center font-bold text-xs" />
+                    <input v-if="isEditing" type="number" v-model.number="subItem.jumlah" min="1" class="w-16 p-1 border border-gray-300 rounded text-center font-bold text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20" />
                     <span v-else class="font-bold text-gray-800">{{ subItem.jumlah }} Unit</span>
                   </td>
                   <td class="px-4 py-3 text-right text-gray-500 whitespace-nowrap">
@@ -244,7 +330,7 @@
                     {{ formatRupiah(subItem.jumlah * subItem.harga_estimasi) }}
                   </td>
                   <td v-if="isEditing" class="px-4 py-3 text-center">
-                    <button @click="hapusItemBarangDariRevisi(index)" class="text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition border border-transparent hover:border-red-100" title="Hapus Barang Ini">
+                    <button @click="hapusItemBarangDariRevisi(index)" class="text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition border border-transparent hover:border-red-100 mx-auto block" title="Hapus Barang Ini">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                       </svg>
@@ -316,16 +402,7 @@
           <p class="text-xs text-gray-500 leading-relaxed">Berikan alasan mengapa dokumen ini dikembalikan agar jurusan dapat memperbaikinya.</p>
         </div>
         
-        <textarea 
-          v-model="catatanInput" 
-          @input="errorCatatan = ''"
-          rows="4" 
-          :class="[
-            'w-full p-3 bg-gray-50 border rounded-xl text-sm focus:outline-none focus:ring-2 transition', 
-            errorCatatan ? 'border-red-500 focus:ring-red-500/50 focus:border-red-500 bg-red-50/30' : 'border-gray-200 focus:ring-amber-500/50 focus:border-amber-500'
-          ]" 
-          placeholder="Ketik alasan revisi..."
-        ></textarea>
+        <textarea v-model="catatanInput" @input="errorCatatan = ''" rows="4" :class="['w-full p-3 bg-gray-50 border rounded-xl text-sm focus:outline-none focus:ring-2 transition', errorCatatan ? 'border-red-500 focus:ring-red-500/50 focus:border-red-500 bg-red-50/30' : 'border-gray-200 focus:ring-amber-500/50 focus:border-amber-500']" placeholder="Ketik alasan revisi..."></textarea>
         
         <p v-if="errorCatatan" class="text-red-500 text-xs mt-1.5 flex items-center gap-1 font-medium">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" /></svg>
@@ -387,10 +464,37 @@ const errorCatatan = ref('')
 
 const isHapusModalOpen = ref(false)
 
+const paguAnggaranJurusan = ref(0)
+const inisialJurusanAktif = ref('')
+
+const danaTerpakaiJurusan = computed(() => {
+  if (roleUser.value !== 'jurusan') return 0
+  const pengajuanDisetujui = daftarPengajuan.value.filter(p => {
+    const inisialDokumen = String(p.id).split('-')[1]
+    return inisialDokumen === inisialJurusanAktif.value && p.status === 'disetujui'
+  })
+  let totalTerpakai = 0
+  pengajuanDisetujui.forEach(p => {
+    totalTerpakai += hitungTotalSemuaBarang(p.list_barang)
+  })
+  return totalTerpakai
+})
+
+const sisaSaldoJurusan = computed(() => {
+  return paguAnggaranJurusan.value - danaTerpakaiJurusan.value
+})
+
 const pilihFilterJurusan = (jurusan) => {
   filterJurusan.value = jurusan
   isFilterDropdownOpen.value = false
 }
+
+const tabList = computed(() => {
+  if (roleUser.value === 'keuangan') {
+    return ['Semua', 'Menunggu', 'Pending Kepsek', 'Siap Rekap', 'Ditolak']
+  }
+  return ['Semua', 'Menunggu', 'Disetujui', 'Ditolak']
+})
 
 const fetchDashboardData = async () => {
   try {
@@ -468,12 +572,9 @@ const fetchDashboardData = async () => {
           list_barang: listBarangSteril
         }
       })
-    } else {
-      alert('Gagal mengambil data dari server: ' + response.data.message)
     }
   } catch (error) {
     console.error('Gagal memuat data:', error)
-    alert('Terjadi error memuat list pengajuan: ' + (error.response?.data?.message || error.message))
   }
 }
 
@@ -481,6 +582,30 @@ const hitungTotalSemuaBarang = (list) => {
   if (!list || list.length === 0) return 0
   return list.reduce((total, barang) => total + (Number(barang.jumlah) * Number(barang.harga_estimasi)), 0)
 }
+
+// LOGIKA BARU: LEADERBOARD JURUSAN TOP SPENDER
+const leaderboardJurusan = computed(() => {
+  if (roleUser.value === 'jurusan') return []
+
+  const pengajuanDisetujui = daftarPengajuan.value.filter(p => p.status === 'disetujui')
+  
+  const rekap = {}
+  pengajuanDisetujui.forEach(p => {
+    const totalNota = hitungTotalSemuaBarang(p.list_barang)
+    if (!rekap[p.asal_jurusan]) {
+      rekap[p.asal_jurusan] = 0
+    }
+    rekap[p.asal_jurusan] += totalNota
+  })
+
+  return Object.keys(rekap)
+    .map(jurusan => ({
+      nama: jurusan,
+      total: rekap[jurusan]
+    }))
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 5) // Ambil Top 5 Teratas
+})
 
 const listJurusanTersedia = computed(() => {
   const jurusanSet = new Set(daftarPengajuan.value.map(p => p.asal_jurusan))
@@ -504,17 +629,17 @@ const statsDinamis = computed(() => {
   
   if (roleUser.value === 'keuangan') {
     const pending = daftarPengajuan.value.filter(p => p.status === 'pending_keuangan').length
-    const disetujui = daftarPengajuan.value.filter(p => ['pending_kepsek', 'disetujui'].includes(p.status)).length
+    const prosesKepsek = daftarPengajuan.value.filter(p => p.status === 'pending_kepsek').length
+    const disetujui = daftarPengajuan.value.filter(p => p.status === 'disetujui').length
     const ditolak = daftarPengajuan.value.filter(p => p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('KEUANGAN')).length
     
-    // Perbaikan: Total di kartu biru HANYA menghitung berkas milik Keuangan
-    const totalBersihKeuangan = pending + disetujui + ditolak
+    const totalBersihKeuangan = pending + prosesKepsek + disetujui + ditolak
 
     return [
       { id: 'Semua', type: 'total', label: 'Total Berkas Masuk', value: totalBersihKeuangan, color: 'border-indigo-500' },
-      { id: 'Menunggu', type: 'pending', label: 'Antrean Validasi', value: pending, color: 'border-amber-500' },
-      { id: 'Disetujui', type: 'disetujui', label: 'Lolos Keuangan', value: disetujui, color: 'border-green-500' },
-      { id: 'Ditolak', type: 'ditolak', label: 'Ditolak Keuangan', value: ditolak, color: 'border-red-500' }
+      { id: 'Menunggu', type: 'pending', label: 'Menunggu Verifikasi', value: pending, color: 'border-amber-500' },
+      { id: 'Proses', type: 'proses', label: 'Pending Kepsek', value: prosesKepsek, color: 'border-purple-500' },
+      { id: 'Disetujui', type: 'disetujui', label: 'Siap Rekap / Disetujui', value: disetujui, color: 'border-emerald-500' }
     ]
   }
 
@@ -523,7 +648,6 @@ const statsDinamis = computed(() => {
     const disetujui = daftarPengajuan.value.filter(p => p.status === 'disetujui').length
     const ditolak = daftarPengajuan.value.filter(p => p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('KEPSEK')).length
     
-    // Perbaikan: Total di kartu biru HANYA menghitung berkas milik Kepsek
     const totalBersihKepsek = pending + disetujui + ditolak
 
     return [
@@ -548,7 +672,6 @@ const statsDinamis = computed(() => {
 const pengajuanTersaring = computed(() => {
   let hasilFilter = daftarPengajuan.value
   
-  // === FILTER ANTI-NYAMPAH UNTUK KEUANGAN & KEPSEK DI DASHBOARD ===
   if (roleUser.value === 'keuangan') {
     hasilFilter = hasilFilter.filter(p => 
       p.status === 'pending_keuangan' || 
@@ -576,7 +699,8 @@ const pengajuanTersaring = computed(() => {
     if (tabAktif.value === 'Ditolak') return hasilFilter.filter(p => p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('SARPRAS'))
   } else if (roleUser.value === 'keuangan') {
     if (tabAktif.value === 'Menunggu') return hasilFilter.filter(p => p.status === 'pending_keuangan')
-    if (tabAktif.value === 'Disetujui') return hasilFilter.filter(p => ['pending_kepsek', 'disetujui'].includes(p.status))
+    if (tabAktif.value === 'Pending Kepsek') return hasilFilter.filter(p => p.status === 'pending_kepsek')
+    if (tabAktif.value === 'Siap Rekap') return hasilFilter.filter(p => p.status === 'disetujui')
     if (tabAktif.value === 'Ditolak') return hasilFilter.filter(p => p.status === 'ditolak' && String(p.catatan_opsional).toUpperCase().includes('KEUANGAN'))
   } else if (roleUser.value === 'kepsek') {
     if (tabAktif.value === 'Menunggu') return hasilFilter.filter(p => p.status === 'pending_kepsek')
@@ -591,12 +715,10 @@ const pengajuanTersaring = computed(() => {
   return hasilFilter
 })
 
-// === FITUR BARU: BATASI MAKSIMAL 5 DATA ===
 const pengajuanTerbatas = computed(() => {
   return pengajuanTersaring.value.slice(0, 5)
 })
 
-// === FITUR BARU: NAMA HALAMAN BERDASARKAN ROLE ===
 const namaHalamanLengkap = computed(() => {
   if (roleUser.value === 'jurusan') return 'Riwayat'
   if (roleUser.value === 'sarpras') return 'Verifikasi Teknis'
@@ -605,7 +727,6 @@ const namaHalamanLengkap = computed(() => {
   return 'Riwayat'
 })
 
-// === FITUR BARU: LINK REDIRECT BERDASARKAN ROLE ===
 const linkLihatSemua = computed(() => {
   if (roleUser.value === 'jurusan') return '/riwayat'
   if (roleUser.value === 'sarpras') return '/verifikasi-teknis'
@@ -715,6 +836,32 @@ const eksekusiStatusAPI = async (status_final, catatan_final) => {
   }
 }
 
+const cekPaguAnggaran = () => {
+  if (roleUser.value === 'jurusan') {
+    const namaUserRaw = (localStorage.getItem('user_name') || 'PPLG').toUpperCase()
+    let inisial = 'PPLG' 
+    
+    const kata = namaUserRaw.split(' ')
+
+    if (namaUserRaw.includes('PPLG') || namaUserRaw.includes('PERANGKAT LUNAK')) inisial = 'PPLG'
+    else if (namaUserRaw.includes('TJKT') || namaUserRaw.includes('JARINGAN')) inisial = 'TJKT'
+    else if (namaUserRaw.includes('DPIB') || namaUserRaw.includes('BANGUNAN')) inisial = 'DPIB'
+    else if (namaUserRaw.includes('BROADCASTING') || namaUserRaw.includes('BC')) inisial = 'BC'
+    else if (namaUserRaw.includes('ELEKTRONIKA') || kata.includes('TE')) inisial = 'TE'
+    else if (namaUserRaw.includes('KETENAGALISTRIKAN') || namaUserRaw.includes('TLK')) inisial = 'TLK'
+    else if (namaUserRaw.includes('MESIN') || namaUserRaw.includes('MSN')) inisial = 'MSN'
+    else if (namaUserRaw.includes('OTOMOTIF') || namaUserRaw.includes('OTM')) inisial = 'OTM'
+
+    inisialJurusanAktif.value = inisial
+
+    const dataPagu = localStorage.getItem('data_pagu_jurusan')
+    if (dataPagu) {
+      const parsed = JSON.parse(dataPagu)
+      paguAnggaranJurusan.value = parsed[inisial] || 0
+    }
+  }
+}
+
 const getStatusBadgeClass = (status) => {
   if (status === 'disetujui') return 'bg-green-50 text-green-700 border-green-200'
   if (status === 'ditolak') return 'bg-red-50 text-red-700 border-red-200'
@@ -725,7 +872,10 @@ const getStatusBadgeClass = (status) => {
 }
 
 const formatStatusTeks = (status, catatan = '') => {
-  if (status === 'disetujui') return 'Disetujui Penuh'
+  if (status === 'disetujui') {
+    if (roleUser.value === 'keuangan') return 'Siap Rekap'
+    return 'Disetujui'
+  }
   if (status === 'pending_sarpras') return 'Pending Sarpras'
   if (status === 'pending_keuangan') return 'Pending Keuangan'
   if (status === 'pending_kepsek') return 'Pending Kepsek'
@@ -747,5 +897,6 @@ onMounted(() => {
   namaUser.value = localStorage.getItem('user_name') || 'Pengguna'
   roleUser.value = (localStorage.getItem('user_role') || 'jurusan').toLowerCase()
   fetchDashboardData()
+  cekPaguAnggaran()
 })
 </script>

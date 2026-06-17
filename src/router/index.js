@@ -46,6 +46,18 @@ const routes = [
       name: 'verifikasi-anggaran',
       component: () => import('../views/VerifikasiAnggaran.vue')
     },
+
+    {
+      path: '/kelola-anggaran',
+      name: 'kelola-anggaran',
+      component: () => import('../views/KelolaAnggaran.vue')
+    },
+
+    {
+      path: '/persetujuan-akhir',
+      name: 'persetujuan-akhir',
+      component: () => import('../views/PersetujuanAkhir.vue')
+    },
 ]
 
 const router = createRouter({
